@@ -1,9 +1,11 @@
-import CusTransfer from "./Transfer"
-export { CusTransfer as Transfer }
+import CusTransfer from './Transfer'
+import CusHorizontalCalendar from './HorizontalCalendar'
+export { CusTransfer, CusHorizontalCalendar }
 
-import "./style.css"
+import './style.css'
 const components = {
   CusTransfer,
+  CusHorizontalCalendar,
 }
 
 export default {
