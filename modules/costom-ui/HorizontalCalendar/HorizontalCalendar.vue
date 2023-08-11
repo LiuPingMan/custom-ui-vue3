@@ -186,7 +186,8 @@ onMounted(() => {
         font-size: 12px;
       }
       .day-selected div {
-        background-color: blueviolet;
+        border: 2px solid #e6571b;
+        color: #e6571b;
       }
       .day-icon div::after {
         content: '';
@@ -195,7 +196,10 @@ onMounted(() => {
         border-left-color: #e6571b;
         right: 0;
         top: 0;
-        transform: translate(50%, -50%) rotate(-45deg);
+        transform: translate(6px, -6px) rotate(-45deg);
+      }
+      .day-selected.day-icon div::after {
+        transform: translate(8px, -8px) rotate(-45deg);
       }
     }
   }
