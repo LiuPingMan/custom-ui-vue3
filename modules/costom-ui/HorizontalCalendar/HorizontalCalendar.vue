@@ -29,9 +29,8 @@
   </div>
 </template>
 <script setup>
-import { nextTick, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useDayList } from './extends/hooks'
-import { throttle } from './utils/index'
 
 const props = defineProps({
   modelValue: {
@@ -50,15 +49,14 @@ const translate = ref(-390)
 
 // 处理连续点击换页
 let rolling = false,
-  rollFuncStack = [],
-  time
+  rollFuncStack = []
 function nextRoll() {
   return new Promise((resolve) => {
-    translate.value -= 390
+    translate.value -= 400
     daysRef.value.style.transitionDuration = '0.5s'
     setTimeout(() => {
       daysRef.value.style.transitionDuration = '0s'
-      translate.value += 390
+      translate.value += 400
       updateDayList(true)
       resolve()
     }, 500)
@@ -66,11 +64,11 @@ function nextRoll() {
 }
 function preRoll() {
   return new Promise((resolve) => {
-    translate.value += 390
+    translate.value += 400
     daysRef.value.style.transitionDuration = '0.5s'
     setTimeout(() => {
       daysRef.value.style.transitionDuration = '0s'
-      translate.value -= 390
+      translate.value -= 400
       updateDayList(false)
       resolve()
     }, 500)
@@ -79,13 +77,10 @@ function preRoll() {
 async function runRollFunc() {
   const func = rollFuncStack.shift()
   await func()
-  let newTime = Date.now()
-  console.log(newTime - time)
-  time = newTime
   if (rollFuncStack.length) {
     setTimeout(() => {
       runRollFunc()
-    }, 50)
+    }, 100)
   } else {
     rolling = false
     // 结束换页后,请求当前日期列表信息
@@ -116,7 +111,6 @@ const handleBtnClick = (direction) => {
   }
   if (!rolling) {
     rolling = true
-    time = Date.now()
     runRollFunc()
   }
 }
@@ -161,8 +155,7 @@ onMounted(() => {
     .days {
       width: 1600px;
       display: flex;
-      transition-duration: 0.5s;
-      transition-timing-function: ease-out;
+      // transition-timing-function: ease-out;
       .day {
         width: 40px;
         flex-shrink: 0;
